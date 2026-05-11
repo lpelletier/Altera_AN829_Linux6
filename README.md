@@ -1,1 +1,1 @@
-# Altera_AN829_Linux6
+# Updated driver for Altera/Intel AN829 Example Design

@@ -1,0 +1,28 @@
+#!/bin/sh
+make clean;
+
+# Pass the modern KCFLAGS variable and force the compiler version
+if [ "$1" = 'stratixv' ]
+then
+    make KCFLAGS="-DSTRATIXV" CC=x86_64-linux-gnu-gcc-13;
+elif [ "$1" = 'stratix10' ]
+then
+    make KCFLAGS="-DSTRATIX10" CC=x86_64-linux-gnu-gcc-13;
+elif [ "$1" = 'arria10' ]
+then
+    make KCFLAGS="-DARRIA10" CC=x86_64-linux-gnu-gcc-13;
+elif [ "$1" = 'cyclone10' ]
+then
+    make KCFLAGS="-DCYCLONE10" CC=x86_64-linux-gnu-gcc-13;
+else
+    echo "Unsupported Device. Please specify: stratixv, stratix10, arria10, or cyclone10"
+    exit 1
+fi
+
+# Unload existing module if it's currently running
+if lsmod | grep -q altera_dma; then
+    ./unload
+fi
+
+# Load the newly compiled module
+./altera_dma_load
